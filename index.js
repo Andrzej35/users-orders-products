@@ -1,7 +1,9 @@
 const express = require('express')
 const app = express()
+const cors = require('cors')
 const service = require('./service')
 
+app.use(cors())
 
 app.get('/', (req, res) => { res.send('Status: OK') })
 
@@ -16,6 +18,11 @@ app.get('/orders/user/:name', (req, res) => {
   const userName = req.params.name
   const orderAmount = service.getOrderCountForUser(userName);
   res.send({ 'ordersByCustomer': orderAmount });
+})
+
+app.get('/orders/product/popular', (req, res) => {
+  const product = service.getMostPopularProduct();
+  res.send(product);
 })
 
 app.get('/orders/product/:product', (req, res) => {
